@@ -47,7 +47,7 @@ def majority(n1, n2, M):
     return 0
   return 2
 
-def rectangular(n1, n2, M1=10, M2=10):
+def rectangular(n1, n2, M1=30, M2=30):
   if n1 == M1:
     return 1
   if n2 == M2:
@@ -58,9 +58,9 @@ def rectangular(n1, n2, M1=10, M2=10):
 
 
 
-def Y(n1, n2, Y0, strategy=rectangular, lie=0.1, a_priori=0.2):
-    #if(n1==n2==0):
-        #return Y0
+def Y(n1, n2, Y0, lie, a_priori,strategy=rectangular):
+    if(n1==n2==0):
+        return Y0
     if strategy(n1, n2) == 0:
         return Y0
 
@@ -68,8 +68,8 @@ def Y(n1, n2, Y0, strategy=rectangular, lie=0.1, a_priori=0.2):
         return 0;
 
     return min(Y0,
-               1 + p1(n1, n2, a_priori, lie) * Y(n1 + 1, n2, Y0, strategy=strategy, lie=lie, a_priori=a_priori)
-               + p0(n1, n2, a_priori, lie) * Y(n1, n2 + 1, Y0, strategy=strategy, lie=lie, a_priori=a_priori))
+               1 + p1(n1, n2, a_priori, lie) * Y(n1 + 1, n2, Y0,  lie=lie, a_priori=a_priori,strategy=strategy)
+               + p0(n1, n2, a_priori, lie) * Y(n1, n2 + 1, Y0, lie=lie, a_priori=a_priori, strategy=strategy))
 
 
 def inizializzazione(nItem,Selettivita):
@@ -107,17 +107,41 @@ def min2(Y,n,Strategy):
             if (Y[app[key][0]]<low):
                 low=Y[app[key][0]]
                 chiave=key
-        lower.append(key)
-        del app[key]
+        lower.append(chiave)
+        del app[chiave]
         low=99999
     return lower
 
+def Y00():
+    alfa=150
+    esup=500
+    emin=0
+    bol=False
+    while(bol is False):
+        prova=Y(0,0,alfa)
+        print(prova)
+        if(alfa>prova):
+            esup=alfa
+            alfa=int((esup-emin)/2)
+        else:
+            if(alfa<prova):
+                emin=alfa
+                alfa=int((esup-emin)/2)
+            else:
+                if(alfa==prova):
+                    bol=True
+        print(alfa)
+
+#Y00()
+
+
 K=15
-Y0=15
-lie=0.2
-M1=10
-M2=10
-Item,Strategy=inizializzazione(200,lie)
+Y0=59
+lie=0.1
+selettivita=0.2
+M1=30
+M2=30
+Item,Strategy=inizializzazione(200,selettivita)
 #print(Strategy)
 
 strategy2=Strategy.copy()
@@ -135,7 +159,7 @@ for key in Strategy:
 for ap in app:
 
     if(not ap[0] in y):
-        y[ap[0]]=Y(ap[0][0],ap[0][1],Y0)
+        y[ap[0]]=Y(ap[0][0],ap[0][1],Y0,lie,selettivita)
 
 fasi=0
 domande=0
@@ -179,11 +203,13 @@ while(len(l)<K):
                 del(Strategy[i])
             else:
                 if not Strategy[i][0] in y:
-                    y[Strategy[i][0]]=Y(Strategy[i][0][0],Strategy[i][0][1],Y0)
+                    y[Strategy[i][0]]=Y(Strategy[i][0][0],Strategy[i][0][1],Y0,lie,selettivita)
 
-#for p in l:
- #   print(p,Item[p])
+for p in l:
+    print(p,Item[p])
 print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi)+"\n"+"\tdomande:"+str(domande) )
+
+
 
 
 
