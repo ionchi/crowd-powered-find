@@ -166,23 +166,32 @@ def inizializzazione(TotalItems, selectivity):
     random.shuffle(Item)
     Strategy={}
     c=0
-    i=0
     Item2={}
-    for item in Item:
-        if (random.random()<(1-tasknormal)):
+    i=0
+    cont1=0
+    cont2=0
+    cont3=0
+    while i < TotalItems:
+        a=random.random()
+        if (a>=(1-tasknormal)):
             #se compreso tra 0.3 e 1 nel caso 0.7
-            Item2[item]=1
+            Item2[i]=1
+            cont1+=1
         else:
-            if (random.random()>taskdiff):
+            if (a>taskdiff):
                 #se compreso tra 0.1 e 0.3
-                Item2[item]=2
+                Item2[i]=2
+                cont2 += 1
             else:
                 #se minore uguale alla probabilità che sia difficile
-                Item2[item]=3
+                Item2[i]=3
+                cont3 += 1
+        i+=1
     while(c < TotalItems):
         Strategy[c]=[(0,0)]
         c+=1
     #print(Strategy)
+    print("task facili: " + str(cont1)+"\n"+"task medi: " + str(cont2) + "\n"+"task difficili: "+str(cont3))
     return Item, Strategy,Item2
 
 
@@ -198,7 +207,7 @@ def min2(Y_store, n, Strategy):
                 chiave=key
         lower.append(chiave)
         del app[chiave]
-    print(lower)
+    #print(lower)
     return lower
 
 
@@ -212,6 +221,7 @@ def main():
 
 
     Item, Strategy,Item2 = inizializzazione(TotalItems, selectivity)
+
     Y0=50000
     #print(Y0)
     domande0=0
@@ -244,7 +254,7 @@ def main():
         fasi+=1
         if errorRate1<=ermax:
             if fasi%200==0:
-                print("yes")
+                #print("yes")
                 n=fasi/200
                 errorRate1=errorRate+n*0.005
                 #print(errorRate1)
@@ -305,8 +315,8 @@ def main():
                 else:
                     if not Strategy[i][0] in y:
                         y[Strategy[i][0]]=Y(Strategy[i][0][0], Strategy[i][0][1], Y0,errorRate1,errorRate0)
-        print(len(Strategy))
-        print(len(l))
+        #print(len(Strategy))
+        #print(len(l))
 
     #print("oggetti")
     uni=0
