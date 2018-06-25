@@ -167,7 +167,7 @@ def min2(Y,n,Strategy):
 
     app=Strategy.copy()
     lower=[]
-    while len(lower) < n:
+    while len(lower) < n and len(app)>0:
         low=99999
         for key in app:
             if (Y[app[key][0]]<low):

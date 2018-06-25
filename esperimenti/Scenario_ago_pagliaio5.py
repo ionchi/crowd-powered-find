@@ -1,8 +1,6 @@
 import random
 
-#caso in cui inseriamo il concetto di attenzione calante all'aumentare delle domande(fasi)   INSERITO
-#inseriamo domande con risposta facile per alzare attenzione NON INSERITO
-#task varie difficoltà INSERITO
+#inseriamo domande con risposta facile per alzare attenzione INSERITO
 #vari utenti che a ogni fase quando dimunuisco utenti caccio quelli che sono peggiori, vanno gestiti i peggiori o miglio NON INSERITO
 
 
@@ -14,7 +12,6 @@ M=20
 M2 = 10
 ermax=0.45
 TotalItems=100000
-
 taskdiff=0.1
 taskmed=0.2
 tasknormal=0.7
@@ -199,7 +196,7 @@ def min2(Y_store, n, Strategy):
 
     app=Strategy.copy()
     lower=[]
-    while len(lower) < n:
+    while len(lower) < n and len(app)>0:
         low=99999
         for key in app:
             if (Y_store[app[key][0]]<low):
@@ -210,29 +207,86 @@ def min2(Y_store, n, Strategy):
     #print(lower)
     return lower
 
+def min3(Utenti,n):
+    app=Utenti.copy()
+    while len(app) > n:
+        max=0
+        for key in app:
+            if (app[key]>max):
+                max=app[key]
+                chiave=key
+        del app[chiave]
+    #print (app)
+    return app
+
+
+
 
 
 
 
 # Inizio MAIN
 
+UtSpammer=0.25
+UtMedi=0.5
+UtHammer=0.25
+Pspammer=0.4
+PNormal=0.25
+Phammer=0.1
+
+def utenti(n):
+    Spammer=int(UtSpammer*n)
+    Normal=int(UtMedi*n)
+    Hammer=int(UtHammer*n)
+    Somma=Hammer+Spammer+Normal
+    if Somma<n:
+        a=n-Somma
+        Normal+=a
+    ut={}
+    c=0
+    i=0
+    while(i<Spammer):
+        ut[c]=Pspammer
+        c+=1
+        i+=1
+    i=0
+    while(i<Normal):
+        ut[c]=PNormal
+        c+=1
+        i+=1
+    i=0
+    while(i<Hammer):
+        ut[c]=Phammer
+        c+=1
+        i+=1
+    return ut
+
+
+
+
 def main():
 
 
 
     Item, Strategy,Item2 = inizializzazione(TotalItems, selectivity)
-
+    attention=20
     Y0=50000
     #print(Y0)
     domande0=0
+    domandeextra=0
+    fasiextra=0
     domande1=0
-    errorRate0 = selectivity
-    errorRate = 0.28
+    errorRate0 = 0.1
+    #errorRate = 0.25
     fasciamed=0.05
     fasciadiff=0.1
     l=[]
+    scartati=0
     y={}
 
+    nutenti = K * M1
+    Utenti = utenti(nutenti)
+    errorRate=Pspammer*UtSpammer+PNormal*UtMedi+Phammer*UtHammer
     #u=Item.copy()
     app=[]
 
@@ -246,33 +300,61 @@ def main():
         if(not ap[0] in y):
             y[ap[0]]=Y(ap[0][0], ap[0][1], Y0,errorRate,errorRate0)
 
+
     fasi=0
     domande=0
-    errorRate1=errorRate
+    #errorRate1=errorRate
     while(len(l)<K and len(Strategy)>0):
 
+        errorRate=0
+        for i in Utenti:
+            errorRate+=Utenti[i]
+        errorRate=errorRate/len(Utenti)
+
         fasi+=1
-        if errorRate1<=ermax:
-            if fasi%200==0:
-                #print("yes")
-                n=fasi/200
-                errorRate1=errorRate+n*0.005
-                #print(errorRate1)
+        for ut in Utenti:
+            if Utenti[ut]<=ermax:
+                if fasi%200==0:
+                    #print("yes")
+                    nnn=fasi/200
+                    Utenti[ut]=Utenti[ut]+nnn*0.005
+                    #print(errorRate1)
+
+
         I2=min2(y,K-len(l),Strategy)
         cq={}
-
+        domandefase=0
         for i in I2:
             n1=M1-Strategy[i][0][0]
             n2=M2-Strategy[i][0][1]
             cq[i] =min(n1,n2)
             domande+=cq[i]
+            domandefase+=cq[i]
 
+
+        if fasi%attention:
+            for i in cq:
+                domande+=cq[i]
+                domandeextra+=cq[i]
+            fasiextra+=1
+
+        Utenti2=min3(Utenti,domandefase)
+        #print(Utenti)
+        listakey=Utenti2.keys()
+        b=[]
+        for i in listakey:
+            b.append(int(i))
+        b2=b.copy()
+        #print(len(b2))
+        #print(Utenti)
         for i in cq:
             c=0
+
             while(c<cq[i]):
                 #simulo crowdsourcing
                 #if(random.random()>errorRate):
-                app=errorRate1
+                prut=b2.pop(0)
+                errorRate1=Utenti[prut]
                 app2=errorRate0
                 if(Item[i]==1):
                     if(Item2[Item[i]]==2):
@@ -283,9 +365,11 @@ def main():
                     if(random.random()<=errorRate1):
                         a=Strategy[i][0][0]
                         b=Strategy[i][0][1]+1
+                        Utenti[prut]=Utenti[prut]+0.01
                     else:
                         a = Strategy[i][0][0]+1
                         b = Strategy[i][0][1]
+                        Utenti[prut] = Utenti[prut] - 0.01
                     Strategy[i]=[(a,b)]
                     domande1+=1
                 else:
@@ -301,9 +385,10 @@ def main():
                         b = Strategy[i][0][1]+1
                     Strategy[i] = [(a, b)]
                     domande0+=1
-                errorRate1=app
+
                 errorRate0=app2
                 c+=1
+
         for i in cq:
             if rectangular(Strategy[i][0][0],Strategy[i][0][1])==1:
                 l.append(i)
@@ -311,10 +396,12 @@ def main():
                 del(Strategy[i])
             else:
                 if rectangular(Strategy[i][0][0],Strategy[i][0][1])==0:
+                    if (Item[i] == 1):
+                        scartati+=1
                     del(Strategy[i])
                 else:
                     if not Strategy[i][0] in y:
-                        y[Strategy[i][0]]=Y(Strategy[i][0][0], Strategy[i][0][1], Y0,errorRate1,errorRate0)
+                        y[Strategy[i][0]]=Y(Strategy[i][0][0], Strategy[i][0][1], Y0,errorRate,errorRate0)
         #print(len(Strategy))
         #print(len(l))
 
@@ -328,9 +415,15 @@ def main():
     accuracy=(uni/len(l))
     avg0=domande0/(TotalItems-len(Strategy)-len(l))
     avg1=domande1/len(l)
+    recall=len(l)/(scartati+len(l))
+
     print(""+"numero di domande medio per elementi che non soddisfano proprietà: " +str(avg0) +"\n" )
     print("" + "numero di domande medio per elementi che soddisfano proprietà: " + str(avg1)+"\n")
-    print("accuracy: " + str(accuracy))
-    print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi)+"\n"+"\tdomande:"+str(domande) )
+    print("accuracy: " + "\n\tPrecision: "+str(accuracy)+"\n\tRecall: "+ str(recall)+"\n\tScartati: "+ str(scartati))
+    print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi) +"\n\t\tdi cui fittizzie: "+str(fasiextra)+
+          "\n"+"\tdomande:"+str(domande) +"\n\t\tdi cui fittizzie: " +str(domandeextra) )
 
-main()
+i=0
+while(i<5):
+    main()
+    i+=1
