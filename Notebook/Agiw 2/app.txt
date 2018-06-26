@@ -1,0 +1,320 @@
+
+import plotly
+import plotly.graph_objs as go
+
+
+
+plotly.offline.plot({
+    "data": [
+    go.Scatterpolar(
+      r = [0.98, 1, 0.6, 0.62, 0.2],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'K=10'
+    ),
+    go.Scatterpolar(
+      r = [0.975, 0.98, 0.62, 0.65, 0.2],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'K=15'
+    ),
+    go.Scatterpolar(
+            r=[0.95, 0.976, 0.7, 0.7, 0.25],
+            theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+            fill='toself',
+            name='K=25'
+    ),
+    go.Scatterpolar(
+        r=[0.942, 0.972, 0.8, 0.78, 0.25],
+        theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+        fill='toself',
+        name='K=30'
+    ),
+    go.Scatterpolar(
+      r = [0.94, 0.968, 0.93, 0.95, 0.26],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'K=50'
+    )
+
+],
+    "layout": go.Layout( polar = dict(
+    radialaxis = dict(
+      visible = True,
+      range = [0, 1]
+    )
+  ),
+  showlegend = True
+)
+})
+
+
+
+import plotly
+import plotly.graph_objs as go
+
+
+
+plotly.offline.plot({
+    "data": [
+    go.Scatterpolar(
+      r = [0.88, 0.86, 0.3, 0.3, 0.20],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Item=10K'
+    ),
+    go.Scatterpolar(
+      r = [0.98, 0.95, 0.45, 0.45, 0.2],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Item=100K'
+    ),
+    go.Scatterpolar(
+            r=[0.99, 0.98, 0.7, 0.7, 0.215],
+            theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+            fill='toself',
+            name='Item=1M'
+    ),
+    go.Scatterpolar(
+      r = [1.0, 0.99, 0.9, 0.9, 0.218],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Item=10M'
+    )
+
+],
+    "layout": go.Layout( polar = dict(
+    radialaxis = dict(
+      visible = True,
+      range = [0, 1]
+    )
+  ),
+  showlegend = True
+)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import plotly
+import plotly.graph_objs as go
+
+
+
+plotly.offline.plot({
+    "data": [
+    go.Scatterpolar(
+      r = [0.88, 0.86, 0.3, 0.3, 0.10],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Item=10000'
+    ),
+    go.Scatterpolar(
+      r = [0.98, 0.95, 0.45, 0.45, 0.2],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Item=100000'
+    ),
+    go.Scatterpolar(
+            r=[0.99, 0.98, 0.7, 0.7, 0.25],
+            theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+            fill='toself',
+            name='Item=1000000'
+    ),
+    go.Scatterpolar(
+      r = [1.0, 0.99, 0.9, 0.9, 0.28],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Item=100000000'
+    )
+
+],
+    "layout": go.Layout( polar = dict(
+    radialaxis = dict(
+      visible = True,
+      range = [0, 1]
+    )
+  ),
+  showlegend = True
+)
+})
+
+
+
+import plotly
+import plotly.graph_objs as go
+
+
+
+plotly.offline.plot({
+    "data": [
+    go.Scatterpolar(
+      r = [0.958, 0.962, 0.92, 0.8, 0.78],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Sel=0.01'
+    ),
+    go.Scatterpolar(
+      r = [0.96, 0.965, 0.87, 0.75, 0.50],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Sel=0.05'
+    ),
+    go.Scatterpolar(
+            r=[0.982, 0.97, 0.8, 0.7, 0.42],
+            theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+            fill='toself',
+            name='Sel=0.1'
+    ),
+    go.Scatterpolar(
+                r=[0.985, 0.975, 0.62, 0.6, 0.35],
+                theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+                fill='toself',
+                name='Sel=0.15'
+    ),
+    go.Scatterpolar(
+                r=[0.99, 0.98, 0.57, 0.52, 0.3],
+                theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+                fill='toself',
+                name='Sel=0.2'
+    ),
+    go.Scatterpolar(
+      r = [1.0, 0.999, 0.42, 0.46, 0.218],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Sel=0.3'
+    )
+
+],
+    "layout": go.Layout( polar = dict(
+    radialaxis = dict(
+      visible = True,
+      range = [0, 1]
+    )
+  ),
+  showlegend = True
+)
+})
+
+
+
+
+
+
+import plotly
+import plotly.graph_objs as go
+
+
+
+plotly.offline.plot({
+    "data": [
+    go.Scatterpolar(
+      r = [1, 1, 0.28, 0.35, 0.25],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Err=0.1'
+    ),
+    go.Scatterpolar(
+      r = [0.98, 0.965, 0.32, 0.36, 0.3],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Err=0.2'
+    ),
+    go.Scatterpolar(
+            r=[0.94, 0.92, 0.35, 0.4, 0.35],
+            theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+            fill='toself',
+            name='Err=0.25'
+    ),
+    go.Scatterpolar(
+                r=[0.84, 0.88, 0.4, 0.41, 0.43],
+                theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+                fill='toself',
+                name='Err=0.30'
+    ),
+    go.Scatterpolar(
+                r=[0.66, 0.76, 0.44, 0.42, 0.48],
+                theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+                fill='toself',
+                name='Err=0.35'
+    ),
+    go.Scatterpolar(
+        r=[0.31, 0.62, 0.45, 0.42, 0.55],
+        theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+        fill='toself',
+        name='Err=0.40'
+    ),
+    go.Scatterpolar(
+      r = [0.16, 0.55, 0.32, 0.36, 0.78],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'Err=0.45'
+    )
+
+],
+    "layout": go.Layout( polar = dict(
+    radialaxis = dict(
+      visible = True,
+      range = [0, 1]
+    )
+  ),
+  showlegend = True
+)
+})
+
+
+
+
+import plotly
+import plotly.graph_objs as go
+
+
+
+plotly.offline.plot({
+    "data": [
+    go.Scatterpolar(
+      r = [0.86, 0.85, 0.15, 0.15, 0.1],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'M=5'
+    ),
+
+    go.Scatterpolar(
+                r=[0.98, 0.98, 0.43, 0.41, 0.22],
+                theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+                fill='toself',
+                name='M=10'
+    ),
+    go.Scatterpolar(
+        r=[1, 0.999, 0.72, 0.74, 0.76],
+        theta=['Precision', 'Recall', 'Fasi', 'Domande', 'Y(0,0)'],
+        fill='toself',
+        name='M=15'
+    ),
+    go.Scatterpolar(
+      r = [1, 1, 0.95, 0.94, 0.95],
+      theta = ['Precision','Recall','Fasi', 'Domande', 'Y(0,0)'],
+      fill = 'toself',
+      name = 'M=20'
+    )
+
+],
+    "layout": go.Layout( polar = dict(
+    radialaxis = dict(
+      visible = True,
+      range = [0, 1]
+    )
+  ),
+  showlegend = True
+)
+})
