@@ -230,8 +230,8 @@ def min3(Utenti,n):
 UtSpammer=0.25
 UtMedi=0.5
 UtHammer=0.25
-Pspammer=0.4
-PNormal=0.25
+Pspammer=0.42
+PNormal=0.3
 Phammer=0.1
 
 def utenti(n):
@@ -269,14 +269,14 @@ def main():
 
 
     Item, Strategy,Item2 = inizializzazione(TotalItems, selectivity)
-    attention=20
+    #attention=20
     Y0=50000
     #print(Y0)
     domande0=0
-    domandeextra=0
-    fasiextra=0
+    #domandeextra=0
+    #fasiextra=0
     domande1=0
-    errorRate0 = 0.1
+    errorRate0 = selectivity
     #errorRate = 0.25
     fasciamed=0.05
     fasciadiff=0.1
@@ -332,11 +332,11 @@ def main():
             domandefase+=cq[i]
 
 
-        if fasi%attention:
-            for i in cq:
-                domande+=cq[i]
-                domandeextra+=cq[i]
-            fasiextra+=1
+        #if fasi%attention:
+         #   for i in cq:
+          #      domande+=cq[i]
+           #     domandeextra+=cq[i]
+            #fasiextra+=1
 
         Utenti2=min3(Utenti,domandefase)
         #print(Utenti)
@@ -420,8 +420,8 @@ def main():
     print(""+"numero di domande medio per elementi che non soddisfano proprietà: " +str(avg0) +"\n" )
     print("" + "numero di domande medio per elementi che soddisfano proprietà: " + str(avg1)+"\n")
     print("accuracy: " + "\n\tPrecision: "+str(accuracy)+"\n\tRecall: "+ str(recall)+"\n\tScartati: "+ str(scartati))
-    print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi) +"\n\t\tdi cui fittizzie: "+str(fasiextra)+
-          "\n"+"\tdomande:"+str(domande) +"\n\t\tdi cui fittizzie: " +str(domandeextra) )
+    print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi) +
+          "\n"+"\tdomande:"+str(domande) )
 
 
     #main()

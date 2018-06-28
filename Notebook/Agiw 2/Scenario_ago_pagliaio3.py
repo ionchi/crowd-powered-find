@@ -227,7 +227,7 @@ def main():
     domande0=0
     domande1=0
     errorRate0 = selectivity
-    errorRate = 0.28
+    errorRate = 0.3
     fasciamed=0.05
     fasciadiff=0.1
     l=[]
@@ -337,4 +337,4 @@ def main():
     print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi) +
           "\n"+"\tdomande:"+str(domande))
 
-main()
+#main()

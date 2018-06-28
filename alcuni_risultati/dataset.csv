@@ -1,2 +1,0 @@
-Item,K,M1,M2,selectivity,errorRate,accuracy_avg,accuracy_lower,accuracy_higher,phases_avg,phases_lower,phases_higher,questions_avg,questions_lower,questions_higher
-100000,10,10,10,0.01,0.1,1.0,1.0,1.0,483.21,231,802,10714.9,5380,21499,

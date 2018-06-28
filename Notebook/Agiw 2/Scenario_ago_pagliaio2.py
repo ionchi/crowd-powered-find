@@ -14,7 +14,7 @@ TotalItems=100000
 
 selectivity = 0.001
 K=TotalItems*selectivity
-errorRate1=0.35
+errorRate1=0.4
 errorRate0=selectivity
 
 

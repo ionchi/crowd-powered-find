@@ -8,7 +8,7 @@ M2 = 10
 TotalItems=1000000
 K = 15
 #Y0 = 30
-errorRate = 0.1
+errorRate = 0.35
 selectivity = 0.2
 
 
