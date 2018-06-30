@@ -143,7 +143,6 @@ def inizializzazione(TotalItems, selectivity):
     while(c < TotalItems):
         Strategy[c]=[(0,0)]
         c+=1
-    #print(Strategy)
     return Item, Strategy
 
 

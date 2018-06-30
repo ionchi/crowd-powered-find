@@ -16,14 +16,9 @@ taskdiff=0.1
 taskmed=0.2
 tasknormal=0.7
 
-#errorRate = 0.1
 
 selectivity = 0.001
-#K=TotalItems*selectivity
 K=20
-#errorRate1=0.3
-#errorRate0=selectivity
-
 
 
 def p_n1n2_if_true(n1, n2,errorRate1,errorRate0):
@@ -43,9 +38,6 @@ def pr1n1n2(n1, n2,errorRate1,errorRate0):
     assert p_n1n2(n1, n2,errorRate1,errorRate0) != 0, 'Probability is not defined if P(n1, n2) = 0'
     return selectivity * p_n1n2_if_true(n1, n2,errorRate1,errorRate0) / p_n1n2(n1, n2,errorRate1,errorRate0)
 
-
-#def pr0n1n2(n1, n2):
-    #return 1 - pr1n1n2(n1, n2)
 
 def pr0n1n2(n1, n2,errorRate1,errorRate0):
     assert p_n1n2(n1, n2,errorRate1,errorRate0) != 0, 'Probability is not defined if P(n1, n2) = 0'
@@ -99,12 +91,6 @@ def treshold(n1,n2):
             return majority(n1,n2,M)
 
 
-
-
-
-
-
-
 def Y(n1, n2, Y0,errorRate1,errorRate0, strategy=rectangular):
     if n1 == n2 == 0:
         return Y0
@@ -132,7 +118,6 @@ def Y00():
 
         candidate_y00 = current_min + (current_max - current_min) / 2.0
 
-        #ec = Y(0,0,candidate_y00)
         estimated_Y00 = 1 + p1(0, 0) * Y(1, 0,candidate_y00) + p0(0, 0) * Y(0, 1,candidate_y00)
 
         error = abs(estimated_Y00 - candidate_y00)
@@ -187,7 +172,6 @@ def inizializzazione(TotalItems, selectivity):
     while(c < TotalItems):
         Strategy[c]=[(0,0)]
         c+=1
-    #print(Strategy)
     print("task facili: " + str(cont1)+"\n"+"task medi: " + str(cont2) + "\n"+"task difficili: "+str(cont3))
     return Item, Strategy,Item2
 
@@ -204,7 +188,6 @@ def min2(Y_store, n, Strategy):
                 chiave=key
         lower.append(chiave)
         del app[chiave]
-    #print(lower)
     return lower
 
 def min3(Utenti,n):
@@ -216,23 +199,17 @@ def min3(Utenti,n):
                 max=app[key]
                 chiave=key
         del app[chiave]
-    #print (app)
     return app
 
 
-
-
-
-
-
 # Inizio MAIN
-
 UtSpammer=0.25
 UtMedi=0.5
 UtHammer=0.25
 Pspammer=0.42
 PNormal=0.3
 Phammer=0.1
+
 
 def utenti(n):
     Spammer=int(UtSpammer*n)
@@ -262,12 +239,7 @@ def utenti(n):
     return ut
 
 
-
-
 def main():
-
-
-
     Item, Strategy,Item2 = inizializzazione(TotalItems, selectivity)
     #attention=20
     Y0=50000
@@ -287,7 +259,6 @@ def main():
     nutenti = K * M1
     Utenti = utenti(nutenti)
     errorRate=Pspammer*UtSpammer+PNormal*UtMedi+Phammer*UtHammer
-    #u=Item.copy()
     app=[]
 
     #aggiorno elenco delle y note con i nuovi punti della strategia
@@ -303,7 +274,6 @@ def main():
 
     fasi=0
     domande=0
-    #errorRate1=errorRate
     while(len(l)<K and len(Strategy)>0):
 
         errorRate=0
@@ -315,11 +285,8 @@ def main():
         for ut in Utenti:
             if Utenti[ut]<=ermax:
                 if fasi%200==0:
-                    #print("yes")
                     nnn=fasi/200
                     Utenti[ut]=Utenti[ut]+nnn*0.005
-                    #print(errorRate1)
-
 
         I2=min2(y,K-len(l),Strategy)
         cq={}
@@ -332,27 +299,17 @@ def main():
             domandefase+=cq[i]
 
 
-        #if fasi%attention:
-         #   for i in cq:
-          #      domande+=cq[i]
-           #     domandeextra+=cq[i]
-            #fasiextra+=1
-
         Utenti2=min3(Utenti,domandefase)
-        #print(Utenti)
         listakey=Utenti2.keys()
         b=[]
         for i in listakey:
             b.append(int(i))
         b2=b.copy()
-        #print(len(b2))
-        #print(Utenti)
         for i in cq:
             c=0
 
             while(c<cq[i]):
                 #simulo crowdsourcing
-                #if(random.random()>errorRate):
                 prut=b2.pop(0)
                 errorRate1=Utenti[prut]
                 app2=errorRate0
@@ -402,15 +359,11 @@ def main():
                 else:
                     if not Strategy[i][0] in y:
                         y[Strategy[i][0]]=Y(Strategy[i][0][0], Strategy[i][0][1], Y0,errorRate,errorRate0)
-        #print(len(Strategy))
-        #print(len(l))
 
-    #print("oggetti")
     uni=0
     for p in l:
         if(Item[p]==1):
             uni+=1
-        #print(p,Item[p])
 
     accuracy=(uni/len(l))
     avg0=domande0/(TotalItems-len(Strategy)-len(l))
@@ -421,7 +374,4 @@ def main():
     print("" + "numero di domande medio per elementi che soddisfano proprietà: " + str(avg1)+"\n")
     print("accuracy: " + "\n\tPrecision: "+str(accuracy)+"\n\tRecall: "+ str(recall)+"\n\tScartati: "+ str(scartati))
     print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi) +
-          "\n"+"\tdomande:"+str(domande) )
-
-
-    #main()
+          "\n"+"\tdomande:"+str(domande))

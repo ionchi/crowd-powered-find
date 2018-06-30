@@ -135,7 +135,6 @@ def Y00():
 
         candidate_y00 = current_min + (current_max - current_min) / 2.0
 
-        #ec = Y(0,0,candidate_y00)
         estimated_Y00 = 1 + p1(0, 0) * Y(1, 0,candidate_y00) + p0(0, 0) * Y(0, 1,candidate_y00)
 
         error = abs(estimated_Y00 - candidate_y00)
@@ -190,7 +189,6 @@ def inizializzazione(TotalItems, selectivity):
     while(c < TotalItems):
         Strategy[c]=[(0,0)]
         c+=1
-    #print(Strategy)
     print("task facili: " + str(cont1)+"\n"+"task medi: " + str(cont2) + "\n"+"task difficili: "+str(cont3))
     return Item, Strategy,Item2
 
@@ -223,7 +221,6 @@ def main():
     Item, Strategy,Item2 = inizializzazione(TotalItems, selectivity)
     saltate=0
     Y0=50000
-    #print(Y0)
     domande0=0
     domande1=0
     errorRate0 = selectivity
@@ -233,7 +230,6 @@ def main():
     l=[]
     y={}
 
-    #u=Item.copy()
     app=[]
 
     #aggiorno elenco delle y note con i nuovi punti della strategia
@@ -254,10 +250,8 @@ def main():
         fasi+=1
         if errorRate1<=ermax:
             if fasi%200==0:
-                #print("yes")
                 n=fasi/200
                 errorRate1=errorRate+n*0.005
-                #print(errorRate1)
         I2=min2(y,K-len(l),Strategy)
         cq={}
 
@@ -271,7 +265,6 @@ def main():
             c=0
             while(c<cq[i]):
                 #simulo crowdsourcing
-                #if(random.random()>errorRate):
                 app=errorRate1
                 app2=errorRate0
                 if(Item[i]==1):
@@ -317,15 +310,11 @@ def main():
                 else:
                     if not Strategy[i][0] in y:
                         y[Strategy[i][0]]=Y(Strategy[i][0][0], Strategy[i][0][1], Y0,errorRate1,errorRate0)
-        #print(len(Strategy))
-        #print(len(l))
 
-    #print("oggetti")
     uni=0
     for p in l:
         if(Item[p]==1):
             uni+=1
-        #print(p,Item[p])
 
     accuracy=(uni/len(l))
     avg0=domande0/(TotalItems-len(Strategy)-len(l))
@@ -336,5 +325,3 @@ def main():
     print("accuracy: " + "\n\tPrecision: "+str(accuracy)+"\n\tRecall: "+ str(recall)+"\n\tScartati in un primo momento: "+ str(saltate))
     print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi) +
           "\n"+"\tdomande:"+str(domande))
-
-#main()
