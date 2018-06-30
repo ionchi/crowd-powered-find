@@ -182,7 +182,10 @@ def main():
     Item, Strategy = inizializzazione(TotalItems, selectivity)
     Y0=Y00()
     l=[]
+    domande0=0
+    domande1=0
     y={}
+    scartati=0
 
     #u=Item.copy()
     app=[]
@@ -217,17 +220,22 @@ def main():
                     if(Item[i]==1):
                         a=Strategy[i][0][0]+1
                         b=Strategy[i][0][1]
+                        domande1 += 1
                     else:
                         a = Strategy[i][0][0]
                         b = Strategy[i][0][1]+1
+                        domande0 += 1
                     Strategy[i]=[(a,b)]
+
                 else:
                     if (Item[i] == 1):
                         a = Strategy[i][0][0]
                         b = Strategy[i][0][1]+1
+                        domande1 += 1
                     else:
                         a = Strategy[i][0][0]+1
                         b = Strategy[i][0][1]
+                        domande0 += 1
                     Strategy[i] = [(a, b)]
                 c+=1
         for i in cq:
@@ -236,6 +244,8 @@ def main():
                 del(Strategy[i])
             else:
                 if rectangular(Strategy[i][0][0],Strategy[i][0][1])==0:
+                    if (Item[i] == 1):
+                        scartati+=1
                     del(Strategy[i])
                 else:
                     if not Strategy[i][0] in y:
@@ -248,9 +258,16 @@ def main():
             uni+=1
         print(p,Item[p])
 
-    accuracy=uni/len(l)
-    print("accuracy: "+ str(accuracy)+"\n")
-    print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi)+"\n"+"\tdomande:"+str(domande) )
+    accuracy=(uni/len(l))
+    avg0=domande0/(TotalItems-len(Strategy)-len(l))
+    avg1=domande1/len(l)
+    recall=len(l)/(scartati+len(l))
 
-main()
+    print(""+"numero di domande medio per elementi che non soddisfano proprietà: " +str(avg0) +"\n" )
+    print("" + "numero di domande medio per elementi che soddisfano proprietà: " + str(avg1)+"\n")
+    print("accuracy: " + "\n\tPrecision: "+str(accuracy)+"\n\tRecall: "+ str(recall)+"\n\tScartati: "+ str(scartati))
+    print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi) +
+          "\n"+"\tdomande:"+str(domande) )
+
+#main()
 

@@ -5,19 +5,21 @@ tresh1=0.5
 tresh2=0.3
 M=20
 M2 = 10
-TotalItems=1000000
+TotalItems=100000
 K = 15
-#Y0 = 30
-errorRate = 0.35
-selectivity = 0.2
+#errorRate = 0.1
+errorRate1=0.3
+
+selectivity = 0.001
+errorRate0=selectivity
 
 
 def p_n1n2_if_true(n1, n2):
-    return ((1 - errorRate) ** n1) * (errorRate ** n2)
+    return ((1 - errorRate1) ** n1) * (errorRate0 ** n2)
 
 
 def p_n1n2_if_false(n1, n2):
-    return (errorRate ** n1) * ((1 - errorRate) ** n2)
+    return (errorRate1 ** n1) * ((1 - errorRate0) ** n2)
 
 
 def p_n1n2(n1, n2,):
@@ -45,11 +47,11 @@ def p0(n1, n2):
     Knowing that I=true, the probability to get a "no" is the probability
     that the worker lie. (same for I=false)
     """
-    return pr1n1n2(n1, n2) * errorRate + pr0n1n2(n1, n2) * (1 - errorRate)
+    return pr1n1n2(n1, n2) * errorRate1 + pr0n1n2(n1, n2) * (1 - errorRate0)
 
 
 def p1(n1, n2):
-    return pr1n1n2(n1, n2) * (1 - errorRate) + pr0n1n2(n1, n2) * errorRate
+    return pr1n1n2(n1, n2) * (1 - errorRate1) + pr0n1n2(n1, n2) * errorRate0
 
 
 def majority(n1, n2, M):
@@ -76,11 +78,10 @@ def treshold(n1,n2):
         treshapp1=tresh1
         treshapp2=tresh2
 
-    if treshapp1<=pr1n1n2(n1,n2):
+    if treshapp1<pr1n1n2(n1,n2):
         return 1
     else:
         if treshapp2>pr0n1n2(n1,n2):
-        #if treshapp1 < pr0n1n2(n1, n2):
             return 0
         else:
             return majority(n1,n2,M)
@@ -110,12 +111,12 @@ def Y00():
     found = False
     i = 0
 
-    current_max = 500
+    current_max = 5000000000
     current_min = 0
 
     while not found:
         if i == max_iterations:
-            raise Exception("Max Iterations")
+            return candidate_y00
 
         candidate_y00 = current_min + (current_max - current_min) / 2.0
 
@@ -180,7 +181,8 @@ def min2(Y,n,Strategy):
 def main():
 
     Item, Strategy = inizializzazione(TotalItems, selectivity)
-    Y0=Y00()
+    Y0=5000
+    print(Y0)
     l=[]
     y={}
 
@@ -213,22 +215,23 @@ def main():
             c=0
             while(c<cq[i]):
                 #simulo crowdsourcing
-                if(random.random()>errorRate):
-                    if(Item[i]==1):
-                        a=Strategy[i][0][0]+1
-                        b=Strategy[i][0][1]
-                    else:
-                        a = Strategy[i][0][0]
-                        b = Strategy[i][0][1]+1
-                    Strategy[i]=[(a,b)]
-                else:
-                    if (Item[i] == 1):
-                        a = Strategy[i][0][0]
-                        b = Strategy[i][0][1]+1
+                #if(random.random()>errorRate):
+                if(Item[i]==1):
+                    if(random.random()<=errorRate1):
+                        a=Strategy[i][0][0]
+                        b=Strategy[i][0][1]+1
                     else:
                         a = Strategy[i][0][0]+1
                         b = Strategy[i][0][1]
-                    Strategy[i] = [(a, b)]
+                    Strategy[i]=[(a,b)]
+                else:
+                    if (random.random()<=errorRate0):
+                        a = Strategy[i][0][0]+1
+                        b = Strategy[i][0][1]
+                    else:
+                        a = Strategy[i][0][0]
+                        b = Strategy[i][0][1]+1
+                Strategy[i] = [(a, b)]
                 c+=1
         for i in cq:
             if rectangular(Strategy[i][0][0],Strategy[i][0][1])==1:
@@ -248,9 +251,7 @@ def main():
             uni+=1
         print(p,Item[p])
 
-    accuracy=uni/len(l)
-    print("accuracy: "+ str(accuracy)+"\n")
+    print(uni/len(l))
     print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi)+"\n"+"\tdomande:"+str(domande) )
 
 main()
-
