@@ -167,7 +167,6 @@ def main():
 
     Item, Strategy = inizializzazione(TotalItems, selectivity)
     Y0=5000
-    #print(Y0)
     l=[]
     saltate=0
     domande0=0
@@ -249,4 +248,3 @@ def main():
     print("accuracy: " + "\n\tPrecision: "+str(accuracy)+"\n\tRecall: "+ str(recall)+"\n\tScartati: "+ str(saltate))
     print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi) +
           "\n"+"\tdomande:"+str(domande))
-
