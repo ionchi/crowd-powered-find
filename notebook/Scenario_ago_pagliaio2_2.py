@@ -1,7 +1,6 @@
-import random
-
 #caso in cui vogliamo che se ci sono degli elementi particolari questo li becca tutti
 
+import random
 
 M1 = 10
 tresh1=0.5
@@ -10,13 +9,10 @@ M=20
 M2 = 10
 TotalItems=100000
 
-#errorRate = 0.1
-
 selectivity = 0.001
 K=TotalItems*selectivity
 errorRate1=0.4
 errorRate0=selectivity
-
 
 
 def p_n1n2_if_true(n1, n2):
@@ -31,14 +27,10 @@ def p_n1n2(n1, n2,):
     return selectivity * p_n1n2_if_true(n1, n2) + (1 - selectivity) * p_n1n2_if_false(n1, n2)
 
 
-#la probabilità effettivamente è uno
 def pr1n1n2(n1, n2):
     assert p_n1n2(n1, n2) != 0, 'Probability is not defined if P(n1, n2) = 0'
     return selectivity * p_n1n2_if_true(n1, n2) / p_n1n2(n1, n2)
 
-
-#def pr0n1n2(n1, n2):
-    #return 1 - pr1n1n2(n1, n2)
 
 def pr0n1n2(n1, n2):
     assert p_n1n2(n1, n2) != 0, 'Probability is not defined if P(n1, n2) = 0'
@@ -74,6 +66,7 @@ def rectangular(n1, n2):
         return 0
     return 2
 
+
 def treshold(n1,n2):
     if tresh1 < tresh2:
         print("incorrect threshold configuration... will be reversed")
@@ -90,12 +83,6 @@ def treshold(n1,n2):
             return 0
         else:
             return majority(n1,n2,M)
-
-
-
-
-
-
 
 
 def Y(n1, n2, Y0, strategy=rectangular):
@@ -125,7 +112,6 @@ def Y00():
 
         candidate_y00 = current_min + (current_max - current_min) / 2.0
 
-        #ec = Y(0,0,candidate_y00)
         estimated_Y00 = 1 + p1(0, 0) * Y(1, 0,candidate_y00) + p0(0, 0) * Y(0, 1,candidate_y00)
 
         error = abs(estimated_Y00 - candidate_y00)
@@ -159,12 +145,10 @@ def inizializzazione(TotalItems, selectivity):
     while(c < TotalItems):
         Strategy[c]=[(0,0)]
         c+=1
-    #print(Strategy)
     return Item, Strategy
 
 
 def min2(Y,n,Strategy):
-
     app=Strategy.copy()
     lower=[]
     while len(lower) < n and len(app)>0:
@@ -178,23 +162,16 @@ def min2(Y,n,Strategy):
     return lower
 
 
-
-
-
 # Inizio MAIN
-
 def main():
-
     Item, Strategy = inizializzazione(TotalItems, selectivity)
     Y0=50000
     saltate=0
-    #print(Y0)
     domande0=0
     domande1=0
     l=[]
     y={}
 
-    #u=Item.copy()
     app=[]
 
     #aggiorno elenco delle y note con i nuovi punti della strategia
@@ -224,7 +201,6 @@ def main():
             c=0
             while(c<cq[i]):
                 #simulo crowdsourcing
-                #if(random.random()>errorRate):
                 if(Item[i]==1):
                     if(random.random()<=errorRate1):
                         a=Strategy[i][0][0]
@@ -260,15 +236,11 @@ def main():
                 else:
                     if not Strategy[i][0] in y:
                         y[Strategy[i][0]]=Y(Strategy[i][0][0], Strategy[i][0][1], Y0)
-        #print(len(Strategy))
-        #print(len(l))
 
-    #print("oggetti")
     uni=0
     for p in l:
         if(Item[p]==1):
             uni+=1
-        #print(p,Item[p])
 
     accuracy=(uni/len(l))
     avg0=domande0/(TotalItems-len(Strategy)-len(l))
@@ -279,5 +251,3 @@ def main():
     print("accuracy: " + "\n\tPrecision: "+str(accuracy)+"\n\tRecall: "+ str(recall)+"\n\tScartati in un primo momento: "+ str(saltate))
     print("risultato ottenuto in:\n"+"\tfasi: "+str(fasi) +
           "\n"+"\tdomande:"+str(domande))
-
-#main()

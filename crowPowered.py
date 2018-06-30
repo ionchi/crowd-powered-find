@@ -86,12 +86,6 @@ def treshold(n1,n2):
             return majority(n1,n2,M)
 
 
-
-
-
-
-
-
 def Y(n1, n2, Y0, strategy=rectangular):
     if n1 == n2 == 0:
         return Y0
